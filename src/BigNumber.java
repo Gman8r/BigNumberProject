@@ -1,19 +1,20 @@
 public class BigNumber 
 {
-	private DoublyLinkedList<Character> digits; //TODO Do we want character as our data type??
+	private DoublyLinkedList<Integer> digits;
 	
 	public BigNumber()
 	{
-		digits = new DoublyLinkedList<Character>();
+		digits = new DoublyLinkedList<Integer>();
 	}
 	
 	public BigNumber(String initialValue)
 	{
 		this();
 		//TODO Optimize list assignment?
+		//TODO Add negative checking
 		for(int i = 0; i < initialValue.length(); i++)
 		{
-			digits.addRight(initialValue.charAt(i));
+			digits.addRight(i - '0');
 		}
 		
 	}
