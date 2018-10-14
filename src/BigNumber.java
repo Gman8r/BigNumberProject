@@ -4,12 +4,18 @@ public class BigNumber
 	
 	public BigNumber()
 	{
-		//TODO Brian
+		digits = new DoublyLinkedList<Character>();
 	}
 	
 	public BigNumber(String initialValue)
 	{
-		//TODO Brian
+		this();
+		//TODO Optimize list assignment?
+		for(int i = 0; i < initialValue.length(); i++)
+		{
+			digits.addRight(initialValue.charAt(i));
+		}
+		
 	}
 	
 	public BigNumber add(BigNumber o)
