@@ -2,11 +2,14 @@ public class BigNumber
 {
 	private DoublyLinkedList<Integer> digits;
 	
+	//TODO Brian	
 	public BigNumber()
 	{
+		//TODO default to "0"
 		digits = new DoublyLinkedList<Integer>();
 	}
 	
+	//TODO Brian
 	public BigNumber(String initialValue)
 	{
 		this();
@@ -18,22 +21,58 @@ public class BigNumber
 		}
 		
 	}
-	
+
+	//TODO Brian
 	public BigNumber add(BigNumber o)
 	{
-		//TODO Brian
 		return null;
 	}
-	
+
+	//TODO Brian
 	public BigNumber subtract (BigNumber o)
 	{
-		//TODO Brian
+		return null;
+	}
+
+	//TODO Matt
+	public BigNumber negate()
+	{
+		return null;
+	}
+
+	//TODO Matt
+	public int sign()
+	{
+		return 0;
+	}
+	
+	//TODO Matt
+	public void normalize()
+	{
+		
+	}
+	
+	//TODO Matt
+	public boolean equals(BigNumber o)
+	{
+		return false;
+	}
+	
+	//TODO Matt
+	public int compareTo(BigNumber o)
+	{
+		return 0;
+	}
+	
+	//TODO Matt
+	public String toString ()
+	{
 		return null;
 	}
 	
+	//TODO Kyle
 	public BigNumber multiply(BigNumber o)
 	{
-		//TODO ???
 		return null;
 	}
 	
@@ -46,50 +85,15 @@ public class BigNumber
 		public BigNumber getMod() { return mod; }
 	}
 	
+	//TODO Kyle
 	public BigNumberDivision divide (BigNumber o)
 	{
-		//TODO ???
 		return null;
 	}
 	
-	public BigNumber negate()
-	{
-		//TODO ???
-		return null;
-	}
-	
-	public int sign()
-	{
-		//TODO ???
-		return 0;
-	}
-	
-	public void normalize()
-	{
-		//TODO ???
-	}
-	
+	//TODO Kyle
 	public BigNumber[] factor()
 	{
-		//TODO ???
-		return null;
-	}
-	
-	public boolean equals(BigNumber o)
-	{
-		//TODO ???
-		return false;
-	}
-	
-	public int compareTo(BigNumber o)
-	{
-		//TODO ???
-		return 0;
-	}
-	
-	public String toString ()
-	{
-		//TODO ???
 		return null;
 	}
 	
