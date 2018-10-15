@@ -53,6 +53,12 @@ public class BigNumber
 	//Brian Intile
 	public BigNumber add(BigNumber o)
 	{
+		//precalculate signs of each number
+		int sign = sign();
+		int oSign = o.sign();
+		//If they are same-signed (and non-zero), keep that in mind to force that sign at the end
+		int forceSign = (sign == oSign) ? sign : 0;
+		
 		//Determine how many digits to iterate based on largest-digit number
 		int maxDigits = Math.max(digits.getSize(), o.digits.getSize());
 		
@@ -66,8 +72,8 @@ public class BigNumber
 		{
 			//Iterate left and take digit values if any exist
 			//Otherwise, pad 0's or 9's depending on sign
-			int digit = iterator.hasLeft() ? iterator.left() : (sign() >= 0 ? 0 : 9);
-			int oDigit = oIterator.hasLeft() ? oIterator.left() : (o.sign() >= 0 ? 0 : 9);
+			int digit = iterator.hasLeft() ? iterator.left() : (sign >= 0 ? 0 : 9);
+			int oDigit = oIterator.hasLeft() ? oIterator.left() : (oSign >= 0 ? 0 : 9);
 			
 			//Add and account for carrying 1's
 			int digitSum = digit + oDigit + (carry ? 1 : 0);
@@ -81,7 +87,12 @@ public class BigNumber
 			results.addLeft(digitSum);
 		}
 		
-		return new BigNumber(results);
+		BigNumber resultNum = new BigNumber(results);	//Cast our result into a BigNumber for the next part
+		//Check if we have to force a sign, and if so, if the result is abiding by it
+		if (forceSign != 0 && resultNum.sign() != forceSign)
+			resultNum.digits.addLeft((forceSign == 1) ? 0 : 1);	//Add leading 0 or 9 depending on sign
+		
+		return resultNum;
 	}
 
 	//Subtracts a big number from this one, returns result
