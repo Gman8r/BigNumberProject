@@ -33,20 +33,11 @@ public class BigNumber
 	}
 	
 	//Private constructor for creating a BigNumber from a list of digits
-	//NOTE: This is passed by reference and should not be used for duplicating BigNumbers
 	//Brian Intile
 	private BigNumber(DoublyLinkedList<Integer> digits)
 	{
 		this();
 		this.digits = digits;
-	}
-	
-	//Private shortcut to duplicate a BigNumber by value 
-	private BigNumber duplicate()
-	{
-		BigNumber returnNum = new BigNumber();
-		returnNum.digits = new DoublyLinkedList<Integer>(digits);
-		return returnNum;
 	}
 
 	//Adds a big number to this one, returns sum
