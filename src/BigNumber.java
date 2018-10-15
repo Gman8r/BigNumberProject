@@ -1,25 +1,39 @@
 public class BigNumber 
 {
 	private DoublyLinkedList<Integer> digits;
-	
-	//TODO Brian	
+
+	//Create a new BigNumber with value 0
+	//Brian Intile
 	public BigNumber()
 	{
-		//TODO default to "0"
 		digits = new DoublyLinkedList<Integer>();
+		digits.addRight(0);
 	}
 	
-	//TODO Brian
-	public BigNumber(String initialValue)
+	//Create a new BigNumber from a string representation of a number
+	//Brian Intile
+	public BigNumber(String value)
 	{
+		//TODO Optimize string reading?
+		//TODO String format exception checking?
 		this();
-		//TODO Optimize list assignment?
-		//TODO Add negative checking
-		for(int i = 0; i < initialValue.length(); i++)
+		digits.removeLeft();	//Remove default '0'
+		boolean isNegative = value.charAt(0) == '-';
+		int strLength = value.length();
+		for(int i = (isNegative ? 1 : 0); i < strLength; i++)
 		{
 			digits.addRight(i - '0');
 		}
-		
+		if (isNegative)
+			digits = negate().digits;	//Create a new, negated BigNumber and steal its digits
+	}
+	
+	//Private constructor for creating a BigNumber from a list of digits
+	//Brian Intile
+	private BigNumber(DoublyLinkedList<Integer> digits)
+	{
+		this();
+		this.digits = digits;
 	}
 
 	//TODO Brian
