@@ -22,7 +22,7 @@ public class BigNumber
 		int strLength = value.length();
 		for(int i = (isNegative ? 1 : 0); i < strLength; i++)
 		{
-			digits.addRight(i - '0');
+			digits.addRight(value.charAt(i) - '0');
 		}
 		if (isNegative)
 			digits = negate().digits;	//Create a new, negated BigNumber and steal its digits
