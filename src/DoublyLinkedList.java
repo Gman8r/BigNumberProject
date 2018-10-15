@@ -34,6 +34,17 @@ public class DoublyLinkedList<T>
 		rightHead = null;
 		size = 0;
 	}
+	
+	//Constructor that duplicates a DoublyLinkedList by value
+	public DoublyLinkedList(DoublyLinkedList<T> input)
+	{
+		this();
+		LeftRightIterator<T> iterator = input.iterator(Side.Left);
+		while(iterator.hasRight())
+		{
+			addRight(iterator.right());	
+		}
+	}
 
 	//Adds a new value to the right of the list
 	public void addRight(T value)
