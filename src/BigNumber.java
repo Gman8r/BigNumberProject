@@ -71,10 +71,12 @@ public class BigNumber
 		return new BigNumber(results);
 	}
 
-	//TODO Brian
+	//Subtracts a big number from this one, returns result
+	//Brian Intile
 	public BigNumber subtract (BigNumber o)
 	{
-		return null;
+		//Just invert the subtracting number and add it
+		return add(o.negate());
 	}
 
 	//TODO Matt
