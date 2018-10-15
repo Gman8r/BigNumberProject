@@ -17,14 +17,18 @@ public class BigNumber
 		//TODO Optimize string reading?
 		//TODO String format exception checking?
 		this();
-		digits.removeLeft();	//Remove default '0'
 		boolean isNegative = value.charAt(0) == '-';
+		
+		//Remove leading '0' (added in by default) UNLESS we're parsing a positive number that starts with n > 4
+		if (isNegative || value.charAt(0) <= '4')	
+			digits.removeLeft(); 
+
 		int strLength = value.length();
 		for(int i = (isNegative ? 1 : 0); i < strLength; i++)
 		{
 			digits.addRight(value.charAt(i) - '0');
 		}
-		if (isNegative)
+		if (isNegative)					//If we're to create a negative number
 			digits = negate().digits;	//Create a new, negated BigNumber and steal its digits
 	}
 	
