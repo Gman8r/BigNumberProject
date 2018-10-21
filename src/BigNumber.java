@@ -90,7 +90,7 @@ public class BigNumber
 		BigNumber resultNum = new BigNumber(results);	//Cast our result into a BigNumber for the next part
 		//Check if we have to force a sign, and if so, if the result is abiding by it
 		if (forceSign != 0 && resultNum.sign() != forceSign)
-			resultNum.digits.addLeft((forceSign == 1) ? 0 : 1);	//Add leading 0 or 9 depending on sign
+			resultNum.digits.addLeft((forceSign == 1) ? 0 : 9);	//Add leading 0 or 9 depending on sign
 		
 		return resultNum;
 	}
