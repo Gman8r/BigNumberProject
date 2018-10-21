@@ -17,11 +17,7 @@ public class BigNumber
 		//TODO Optimize string reading?
 		//TODO String format exception checking?
 		this();
-		boolean isNegative = value.charAt(0) == '-';
-		
-		//Remove leading '0' (added in by default) UNLESS we're parsing a positive number that starts with n > 4
-		if (isNegative || value.charAt(0) <= '4')	
-			digits.removeLeft(); 
+		boolean isNegative = value.charAt(0) == '-'; 
 
 		int strLength = value.length();
 		for(int i = (isNegative ? 1 : 0); i < strLength; i++)
