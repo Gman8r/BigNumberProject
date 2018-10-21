@@ -2,20 +2,18 @@ public class BigNumber
 {
 	private DoublyLinkedList<Integer> digits;
 
-	//Create a new BigNumber with value 0
-	//Brian Intile
+	/**Creates a new BigNumber with value 0
+	@author Brian Intile**/
 	public BigNumber()
 	{
 		digits = new DoublyLinkedList<Integer>();
 		digits.addRight(0);
 	}
 	
-	//Create a new BigNumber from a string representation of a number
-	//Brian Intile
+	/**Creates a new BigNumber from a string representation of a number
+	@author Brian Intile**/
 	public BigNumber(String value)
 	{
-		//TODO Optimize string reading?
-		//TODO String format exception checking?
 		this();
 		boolean isNegative = value.charAt(0) == '-'; 
 
@@ -28,16 +26,14 @@ public class BigNumber
 			digits = negate().digits;	//Create a new, negated BigNumber and steal its digits
 	}
 	
-	//Private constructor for creating a BigNumber from a list of digits
-	//NOTE: This is passed by reference and should not be used for duplicating BigNumbers
-	//Brian Intile
+	//Private constructor for creating a BigNumber from a list of digits.
 	private BigNumber(DoublyLinkedList<Integer> digits)
 	{
 		this();
 		this.digits = digits;
 	}
 	
-	//Private shortcut to duplicate a BigNumber by value 
+	//Private shortcut to duplicate a BigNumber by value
 	private BigNumber duplicate()
 	{
 		BigNumber returnNum = new BigNumber();
@@ -45,14 +41,17 @@ public class BigNumber
 		return returnNum;
 	}
 
-	//Adds a big number to this one, returns sum
-	//Brian Intile
+	/**Adds a big number to this one
+	 * @param o number to add
+	 * @return sum
+	 * @author Brian Intile
 	public BigNumber add(BigNumber o)
 	{
 		//precalculate signs of each number
 		int sign = sign();
 		int oSign = o.sign();
 		//If they are same-signed (and non-zero), keep that in mind to force that sign at the end
+		//This is to prevent a circumstance such as "3 + 3 = 6" and change it to "3 + 3 = 06"
 		int forceSign = (sign == oSign) ? sign : 0;
 		
 		//Determine how many digits to iterate based on largest-digit number
@@ -84,18 +83,21 @@ public class BigNumber
 		}
 		
 		BigNumber resultNum = new BigNumber(results);	//Cast our result into a BigNumber for the next part
-		//Check if we have to force a sign, and if so, if the result is abiding by it
+		//Check if we have to force a sign, and if so, if the result is already that sign
 		if (forceSign != 0 && resultNum.sign() != forceSign)
 			resultNum.digits.addLeft((forceSign == 1) ? 0 : 9);	//Add leading 0 or 9 depending on sign
 		
 		return resultNum;
 	}
 
-	//Subtracts a big number from this one, returns result
-	//Brian Intile
-	public BigNumber subtract (BigNumber o)
+	/**Subtracts a big number to this one
+	 * @param o number to subtract
+	 * @return difference
+	 * @author Brian Intile
+	 */
+	public BigNumber subtract(BigNumber o)
 	{
-		//Just invert the subtracting number and add it
+		//Just negate the subtracting number and add it
 		return add(o.negate());
 	}
 
