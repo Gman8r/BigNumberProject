@@ -1,10 +1,12 @@
 import java.util.NoSuchElementException;
 
-
-//Simple DoublyLinkedList implementation
-//By Brian Intile
-//Based loosely on https://algs4.cs.princeton.edu/13stacks/DoublyLinkedList.java.html
-//"left" and "right" nomenclature is used instead of "next" and "previous" for ease of use with this project
+/**
+ * Data structure to store and traverse a list of objects from either side in linear time.
+ * <br>Based loosely on https://algs4.cs.princeton.edu/13stacks/DoublyLinkedList.java.html
+ * <br>"left" and "right" nomenclature is used instead of "next" and "previous" for ease of use with this project
+ * @param <T> Data type
+ * @author Brian intile
+ */
 public class DoublyLinkedList<T>
 {
 	//Node helper type for list element
@@ -28,6 +30,9 @@ public class DoublyLinkedList<T>
 	
 	int size;
 	
+	/**
+	 * Constructor for new DoublyLinkedList
+	 */
 	public DoublyLinkedList()
 	{
 		leftHead = null;
@@ -35,7 +40,10 @@ public class DoublyLinkedList<T>
 		size = 0;
 	}
 	
-	//Constructor that duplicates a DoublyLinkedList by value
+	/**Constructor that duplicates a DoublyLinkedList by value
+	 * 
+	 * @param input list values
+	 */
 	public DoublyLinkedList(DoublyLinkedList<T> input)
 	{
 		this();
@@ -46,7 +54,10 @@ public class DoublyLinkedList<T>
 		}
 	}
 
-	//Adds a new value to the right of the list
+	/**
+	 * Adds a new value to the right of the list
+	 * @param value
+	 */
 	public void addRight(T value)
 	{
 		Node newRight = new Node();
@@ -66,7 +77,9 @@ public class DoublyLinkedList<T>
 		size++;
 	}
 	
-	//Removes the rightmost value
+	/**
+	 * Removes the rightmost value
+	 */
 	public void removeRight()
 	{
 		if (size <= 0)
@@ -87,7 +100,10 @@ public class DoublyLinkedList<T>
 		}
 	}
 
-	//Adds a new value to the left of the list
+	/**
+	 * Adds a new value to the left of the list
+	 * @param value
+	 */
 	public void addLeft(T value)
 	{
 		Node newLeft = new Node();
@@ -107,7 +123,9 @@ public class DoublyLinkedList<T>
 		size++;
 	}
 	
-	//Removes the leftmost value
+	/**
+	 * Removes the leftmost value
+	 */
 	public void removeLeft()
 	{
 		if (size <= 0)
@@ -128,33 +146,59 @@ public class DoublyLinkedList<T>
 		}
 	}
 	
+	/**
+	 * Returns current size of list (constant time)
+	 * @return size
+	 */
 	public int getSize()
 	{
 		return size;
 	}
 	
+	/**
+	 * Returns whether the list size > 0
+	 * @return is empty
+	 */
 	public boolean isEmpty()
 	{
 		return size > 0;
 	}
 
+	/**
+	 * Creates and returns a new iterator for the list
+	 * <br>WARNING: Not suitable for adding to or removing from the list while iterating. If an item is added or removed, create a new iterator  
+	 * @param startSide Side to start on
+	 * @return iterator
+	 */
 	public LeftRightIterator<T> iterator(Side startSide)
 	{
 		return new DoublyLinkedListIterator(startSide);
 	}
 	
-	//Iterator for doubly linked list
+	/**
+	 * Iterator for doubly linked list
+	 * @author Brian Intile
+	 *
+	 */
 	public class DoublyLinkedListIterator implements LeftRightIterator<T>
 	{
 		private Node leftNode;		//Node to the left of pointer
 		private Node rightNode;		//Node to the right of pointer
 		private Node lastVisitedNode;		//Last visited node from left() or right()
 		
+		/**
+		 * Constructor for iterator
+		 * @param startSide
+		 */
 		public DoublyLinkedListIterator(Side startSide)
 		{
 			reset(startSide);
 		}
 		
+		/**
+		 * Reset iteration by returning to one side of the list
+		 * @param startSide side to start from  
+		 */
 		@Override
 		public void reset(Side startSide)
 		{
@@ -170,19 +214,29 @@ public class DoublyLinkedList<T>
 			}
 		}
 
+		/**
+		 * Determines if there are values to the left of the current iteration position
+		 * @return true if there is a left value
+		 */
 		@Override
 		public boolean hasLeft()
 		{
 			return leftNode != null;
 		}
 
+		/**
+		 * Determines if there are values to the right of the current iteration position
+		 * @return true if there is a right value
+		 */
 		@Override
 		public boolean hasRight()
 		{
 			return rightNode != null;
 		}
 
-		//Moves iterator right and returns next value
+		/**
+		 * Moves iterator right and returns next value
+		 */
 		@Override
 		public T right()
 		{
@@ -195,7 +249,9 @@ public class DoublyLinkedList<T>
 			return value;
 		}
 
-		//Moves iterator left and returns next value
+		/**
+		 * Moves iterator left and returns next value
+		 */
 		@Override
 		public T left()
 		{
@@ -208,7 +264,9 @@ public class DoublyLinkedList<T>
 			return value;
 		}
 
-		//Sets last-visited (using left() or right()) value
+		/**
+		 * Sets last-visited (using left() or right()) value
+		 */
 		@Override
 		public void set(T value)
 		{

@@ -1,3 +1,7 @@
+/**
+ * Numeric structure for performing mathematic operations on arbitrarily large numbers
+ * @author Brian intile, Matthew Moore, Kyle Butera
+ */
 public class BigNumber 
 {
 	private DoublyLinkedList<Integer> digits;
@@ -26,14 +30,19 @@ public class BigNumber
 			digits = negate().digits;	//Create a new, negated BigNumber and steal its digits
 	}
 	
-	//Private constructor for creating a BigNumber from a list of digits.
+	/**Private constructor for creating a BigNumber from a list of digits
+	 * <br>NOTE: This is passed by reference and should not be used for duplicating BigNumbers
+	 * @param digits Digits of the BigNumber
+	 */
 	private BigNumber(DoublyLinkedList<Integer> digits)
 	{
 		this();
 		this.digits = digits;
 	}
 	
-	//Private shortcut to duplicate a BigNumber by value
+	/**Private shortcut to duplicate a BigNumber by value
+	 * @return Duplicated equivalent BigNumber
+	 */
 	private BigNumber duplicate()
 	{
 		BigNumber returnNum = new BigNumber();
@@ -45,6 +54,7 @@ public class BigNumber
 	 * @param o number to add
 	 * @return sum
 	 * @author Brian Intile
+	 */
 	public BigNumber add(BigNumber o)
 	{
 		//precalculate signs of each number
