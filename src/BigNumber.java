@@ -31,6 +31,7 @@ public class BigNumber
 		}
 		if (isNegative)					//If we're to create a negative number
 			digits = negate().digits;	//Create a new, negated BigNumber and steal its digits
+		normalize();
 	}
 	
 	/**Private constructor for creating a BigNumber from a list of digits
@@ -96,10 +97,12 @@ public class BigNumber
 		}
 		
 		BigNumber resultNum = new BigNumber(results);	//Cast our result into a BigNumber for the next part
+		
 		//Check if we have to force a sign, and if so, if the result is already that sign
 		if (forceSign != 0 && resultNum.sign() != forceSign)
 			resultNum.digits.addLeft((forceSign == 1) ? 0 : 9);	//Add leading 0 or 9 depending on sign
 		
+		resultNum.normalize();
 		return resultNum;
 	}
 
