@@ -1,5 +1,8 @@
-//Left and right moving iterator interface to help DoublyLinkedList iteration
-//By Brian Intile
+/**Left and right moving iterator interface to help DoublyLinkedList iteration
+ * 
+ * @param <T> Data type
+ * @author Brian intile
+ */
 public interface LeftRightIterator<T>
 {
 	public abstract void reset(DoublyLinkedList.Side startSide);
