@@ -7,7 +7,8 @@ public class BigNumber
 	private DoublyLinkedList<Integer> digits;
 
 	/**Creates a new BigNumber with value 0
-	@author Brian Intile**/
+	* @author Brian Intile
+	*/
 	public BigNumber()
 	{
 		digits = new DoublyLinkedList<Integer>();
@@ -15,11 +16,13 @@ public class BigNumber
 	}
 	
 	/**Creates a new BigNumber from a string representation of a number
-	@author Brian Intile**/
+	 * @param value Value to parse
+	 * @author Brian Intile
+	 */
 	public BigNumber(String value)
 	{
 		this();
-		boolean isNegative = value.charAt(0) == '-'; 
+		boolean isNegative = value.charAt(0) == '-';
 
 		int strLength = value.length();
 		for(int i = (isNegative ? 1 : 0); i < strLength; i++)
