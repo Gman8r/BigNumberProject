@@ -56,7 +56,7 @@ public class DoublyLinkedList<T>
 
 	/**
 	 * Adds a new value to the right of the list
-	 * @param value
+	 * @param value value to add
 	 */
 	public void addRight(T value)
 	{
@@ -102,7 +102,7 @@ public class DoublyLinkedList<T>
 
 	/**
 	 * Adds a new value to the left of the list
-	 * @param value
+	 * @param value value to add
 	 */
 	public void addLeft(T value)
 	{
@@ -156,7 +156,7 @@ public class DoublyLinkedList<T>
 	}
 	
 	/**
-	 * Returns whether the list size > 0
+	 * Returns whether the list size is greater than 0
 	 * @return is empty
 	 */
 	public boolean isEmpty()
@@ -188,7 +188,7 @@ public class DoublyLinkedList<T>
 		
 		/**
 		 * Constructor for iterator
-		 * @param startSide
+		 * @param startSide side to start from
 		 */
 		public DoublyLinkedListIterator(Side startSide)
 		{
