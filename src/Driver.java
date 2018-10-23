@@ -36,9 +36,14 @@ public class Driver
 			System.out.println ("Product: " + x.multiply(y));
 			System.out.println ("Product: " + y.multiply(x));
 //			System.out.println ("First / Second: " + x.divide(y).getQuotient());
-//	 		System.out.println ("Second / First: " + y.divide(x).getQuotient());
 //			System.out.println ("First % Second: " + x.divide(y).getMod());
+//	 		System.out.println ("Second / First: " + y.divide(x).getQuotient());
 //			System.out.println ("Second % First: " + y.divide(x).getMod());
+			
+			System.out.println ("Factoring First");
+			x.factor();
+			System.out.println ("Factoring Second");
+			y.factor();
 		   
 			line = scanner.nextLine();
 		}
