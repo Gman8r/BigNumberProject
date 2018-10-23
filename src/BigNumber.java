@@ -249,8 +249,69 @@ public class BigNumber
 	
 	//TODO Kyle
 	public BigNumber multiply(BigNumber o)
-	{
-		return null;
+	{		
+		//Assign new variables for negating and swapping purposes
+		BigNumber a = this;
+		BigNumber b = o;
+		
+		//Turn both numbers non-negative and note what sign we'll end up with
+		int aSign = a.sign();
+		int bSign = b.sign();
+		int resultSign = 1;
+		if (aSign < 0)
+		{
+			a = a.negate();
+			resultSign *= -1;
+		}
+		if (bSign < 0)
+		{
+			b = b.negate();
+			resultSign *= -1;
+		}
+		
+		//Create our A iterator and result list
+		LeftRightIterator<Integer> aIterator = a.digits.iterator(DoublyLinkedList.Side.Left);
+		BigNumber resultNum = new BigNumber();	//Our return variable, will add all digit sums together
+		resultNum.digits.removeLeft(); //remove default 0 because that will be readded when we initially multiply by 10
+
+		//Move left to right along A, while multiplying each digit by B and factoring in tens places
+		while (aIterator.hasRight())
+		{
+			resultNum.digits.addRight(0); //Multiply current result by 10 (by appending a zero) before adding next digit mult
+			int aDigit = aIterator.right();
+			LeftRightIterator<Integer> bIterator = b.digits.iterator(DoublyLinkedList.Side.Right);
+			DoublyLinkedList<Integer> digitResult = new DoublyLinkedList<Integer>();
+			int carry = 0;
+			
+			//Partial mult loop to multiply the digit from A by B
+			while (bIterator.hasLeft())
+			{
+				//Iterate left and take digit values from B
+				int bDigit = bIterator.left();
+
+				int digitProduct = (aDigit * bDigit) + carry;
+				if (digitProduct >= 10)
+				{
+					carry = (digitProduct - (digitProduct % 10)) /10;
+					digitProduct = digitProduct % 10;
+				}
+				else
+					carry = 0;
+				digitResult.addLeft(digitProduct);
+			}
+			if (carry > 0)	//Carry last digit out if necessary
+				digitResult.addLeft(carry);
+			digitResult.addLeft(0);	//Append 0 to ensure positive
+			
+			resultNum = resultNum.add(new BigNumber(digitResult)); //Add our digit result to our current calculated total
+		}
+		
+		//Negate our result if sign says we should do so
+		if (resultSign < 0)
+			resultNum = resultNum.negate();
+		
+		resultNum.normalize();
+		return resultNum;
 	}
 	
 	//Helper class for division

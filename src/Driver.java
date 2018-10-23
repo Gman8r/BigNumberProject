@@ -33,8 +33,8 @@ public class Driver
 			System.out.println ("Second - First: " + y.subtract(x));
 			System.out.println ("First Negated: " + x.negate());
 			System.out.println ("Second Negated: " + y.negate());
-//			System.out.println ("Product: " + x.multiply(y));
-//			System.out.println ("Product: " + y.multiply(x));
+			System.out.println ("Product: " + x.multiply(y));
+			System.out.println ("Product: " + y.multiply(x));
 //			System.out.println ("First / Second: " + x.divide(y).getQuotient());
 //	 		System.out.println ("Second / First: " + y.divide(x).getQuotient());
 //			System.out.println ("First % Second: " + x.divide(y).getMod());
