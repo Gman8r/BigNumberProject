@@ -117,40 +117,134 @@ public class BigNumber
 		return add(o.negate());
 	}
 
-	//TODO Matt
+	/**Negate acts identically to performing 10's compliment on a number.
+	 * @return negated number
+	 * @author Matt Moore
+	 */
 	public BigNumber negate()
 	{
-		return null;
+		int sign = sign();
+		if (sign == 0)	//Edge case for 0
+			return this.duplicate();
+		
+		//Creating iterator and results list
+		LeftRightIterator<Integer> iterator = digits.iterator(DoublyLinkedList.Side.Right);
+		DoublyLinkedList<Integer> results = new DoublyLinkedList<Integer>();
+		
+		//Iterate left "performing 9's compliment" and store it into results
+		while (iterator.hasLeft())
+		{
+			int newDigit = 9 - iterator.left();
+			results.addLeft(newDigit);
+		}
+		
+		//Return results (by taking 9's compliment) and add 1
+		BigNumber resultNum = new BigNumber(results);
+		return resultNum.add(new BigNumber("1"));
 	}
 
-	//TODO Matt
+	/**Determines the sign of a number based on the first digit in the list
+	 * @return int (the sign: -1 = negative, 1 = positive, 0 = zero)
+	 * @author Matt Moore
+	 */
 	public int sign()
-	{
-		return 0;
+	{	//Starting from the left most side, checking value of first iteration
+		if (digits.iterator(DoublyLinkedList.Side.Left).right() > 4)
+			return -1;	//Negative case if greater than 4
+		else
+		{
+			LeftRightIterator<Integer> iterator = digits.iterator(DoublyLinkedList.Side.Left);
+			while(iterator.hasRight())
+			{
+				if (iterator.right() > 0)
+					return 1;	//Positive case for anything other than 0, negatives been checked
+			}
+		}
+		return  0;	
 	}
 	
-	//TODO Matt
+	/**"Normalizes" numbers by removing any unnecessary leading 0's or 9's
+	 * @author Matt Moore, Brian Intile
+	 */
 	public void normalize()
 	{
+		//Precalculate sign, create iterator and tally
+		int sign = sign();
+		LeftRightIterator<Integer> iterator = digits.iterator(DoublyLinkedList.Side.Left);
+		int tally = 0;
 		
+		while (iterator.hasRight())
+		{
+			int digit = iterator.right();
+			if (digit == ((sign < 0) ? 9 : 0))	//Leading 0 or 9
+			{
+				tally++;
+			}
+			else	//Found non 0 or 9
+			{
+				boolean needsLeadingDigit;	//Calculate whether we need one leading 9 or 0
+				if (sign < 0)
+					needsLeadingDigit = digit <= 4;
+				else
+					needsLeadingDigit = digit > 4;
+				if (needsLeadingDigit)		//Subtract 1 from our removal tally if we do
+					tally--;
+				for (int i = 0; i < tally; i ++)	//Remove digits corresponding to our tally
+					digits.removeLeft();
+				return;
+			}
+		}
+		
+		//At this point we've reached end of list and found all 9's or 0's (or empty)
+		digits = new DoublyLinkedList<Integer>();
+		digits.addLeft((sign < 0) ? 9 : 0);
+		return;
 	}
 	
-	//TODO Matt
+	/**Determines whether the two numbers are equal or not, using the compareTo method
+	 * @param o number to compare to
+	 * @return boolean (If difference between the two is zero, they are equal, return true)
+	 * @author Matt Moore
+	 */
 	public boolean equals(BigNumber o)
 	{
-		return false;
+		return compareTo(o) == 0;
 	}
 	
-	//TODO Matt
+	/**Compares two numbers by subtraction, returning the sign of the difference
+	 * @param o number to subtract
+	 * @return int (the sign of the difference)
+	 * @author Matt Moore
+	 */
 	public int compareTo(BigNumber o)
 	{
-		return 0;
+		return this.subtract(o).sign();
 	}
 	
-	//TODO Matt
+	/**Displays number in human-readable representation
+	 * @return string (info - textual representation of the number)
+	 * @author Matt Moore
+	 */
 	public String toString ()
-	{
-		return null;
+	{	//Check for negative to add "human representation" (negative sign)
+		int sign = sign();
+		if (sign < 0)
+			return "-" + negate().toString();
+
+		normalize();	
+		String info = "";
+		LeftRightIterator<Integer> iterator = digits.iterator(DoublyLinkedList.Side.Left);
+		int firstDigit = iterator.right();
+		//Include first digit if it's non-zero OR if it's the only digit
+		if (firstDigit != 0 || !iterator.hasRight())
+			info += firstDigit;
+		//Iterating right through the number, concatenating the string with each digit
+		while (iterator.hasRight())
+		{
+			info += iterator.right();
+		}
+		
+		return info;
 	}
 	
 	//TODO Kyle

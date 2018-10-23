@@ -25,6 +25,8 @@ public class Driver
 
 			System.out.println ("First: " + x);
 			System.out.println ("Second: " + y);
+			System.out.println ("First Raw: " + x.toStringRaw());
+			System.out.println ("Second Raw: " + y.toStringRaw());
 			System.out.println ("Sum: " + x.add(y));
 			System.out.println ("Sum: " + y.add(x));
 			System.out.println ("First - Second: " + x.subtract(y));
