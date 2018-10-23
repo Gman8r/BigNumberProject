@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Numeric structure for performing mathematic operations on arbitrarily large numbers
  * @author Brian intile, Matthew Moore, Kyle Butera
@@ -5,6 +7,17 @@
 public class BigNumber 
 {
 	private DoublyLinkedList<Integer> digits;
+	
+    public String toStringRaw()
+    {
+        String info = "";
+        LeftRightIterator<Integer> iterator = digits.iterator(DoublyLinkedList.Side.Left);
+        while (iterator.hasRight())
+        {
+            info += iterator.right();
+        }
+        return info;
+    }
 
 	/**Creates a new BigNumber with value 0
 	* @author Brian Intile
@@ -326,12 +339,34 @@ public class BigNumber
 	//TODO Kyle
 	public BigNumberDivision divide (BigNumber o)
 	{
-		return null;
+		BigNumber tally = new BigNumber();
+		BigNumber current = this;
+		while (current.compareTo(o) >= 0)
+		{
+			current = current.subtract(o);
+			tally = tally.add(new BigNumber("1"));
+		}
+		
+		BigNumberDivision result = new BigNumberDivision();
+		result.quotient = tally;
+		result.mod = current;
+		return result;
 	}
 	
 	//TODO Kyle
 	public BigNumber[] factor()
 	{
+		ArrayList<BigNumber> results = new ArrayList<BigNumber>();
+		int sqrtDigits = (int)Math.ceil((float)digits.getSize() / 2f);
+		BigNumber zero = new BigNumber();
+		BigNumber one = new BigNumber("1");
+		for(BigNumber i = new BigNumber("2"); i.digits.getSize() <= sqrtDigits + 1; i = i.add(one))
+		{
+			if (this.divide(i).getMod().equals(zero) && i.compareTo(this) < 0)
+			{
+					System.out.println(i + " is a factor of " + this);
+			}
+		}
 		return null;
 	}
 	
