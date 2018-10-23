@@ -2,22 +2,11 @@ import java.util.ArrayList;
 
 /**
  * Numeric structure for performing mathematic operations on arbitrarily large numbers
- * @author Brian intile, Matthew Moore, Kyle Butera
+ * @author Brian intile, Matt Moore, Kyle Butera
  */
 public class BigNumber 
 {
 	private DoublyLinkedList<Integer> digits;
-	
-    public String toStringRaw()
-    {
-        String info = "";
-        LeftRightIterator<Integer> iterator = digits.iterator(DoublyLinkedList.Side.Left);
-        while (iterator.hasRight())
-        {
-            info += iterator.right();
-        }
-        return info;
-    }
 
 	/**Creates a new BigNumber with value 0
 	* @author Brian Intile
@@ -144,19 +133,21 @@ public class BigNumber
 		LeftRightIterator<Integer> iterator = digits.iterator(DoublyLinkedList.Side.Right);
 		DoublyLinkedList<Integer> results = new DoublyLinkedList<Integer>();
 		
-		//Iterate left "performing 9's compliment" and store it into results
+		//Iterate left, performing 9's compliment, and store it into results
 		while (iterator.hasLeft())
 		{
 			int newDigit = 9 - iterator.left();
 			results.addLeft(newDigit);
 		}
 		
-		//Return results (by taking 9's compliment) and add 1
-		BigNumber resultNum = new BigNumber(results);
-		return resultNum.add(new BigNumber("1"));
+		//Cast results and add 1 to fulfill 9's complement
+		BigNumber resultNum = new BigNumber(results).add(new BigNumber("1"));
+		resultNum.normalize();
+		return resultNum;
 	}
 
 	/**Determines the sign of a number based on the first digit in the list
+	 * <br>Note: is O(1) runtime only if the number is normalized, otherwise it can be O(digits)
 	 * @return int (the sign: -1 = negative, 1 = positive, 0 = zero)
 	 * @author Matt Moore
 	 */
@@ -241,10 +232,10 @@ public class BigNumber
 	public String toString ()
 	{	//Check for negative to add "human representation" (negative sign)
 		int sign = sign();
-		if (sign < 0)
+		if (sign < 0)	//If it's negative, just negate and throw a minus sign on that toString()
 			return "-" + negate().toString();
 
-		normalize();	
+		normalize();	//Normalize to ensure no more than one leading 0
 		String info = "";
 		LeftRightIterator<Integer> iterator = digits.iterator(DoublyLinkedList.Side.Left);
 		int firstDigit = iterator.right();
@@ -260,7 +251,27 @@ public class BigNumber
 		return info;
 	}
 	
-	//TODO Kyle
+	/**
+	 * For internal testing, returns the BigNumber's list of digits unparsed
+	 * @return digit list
+	 */
+    private String toStringRaw()
+    {
+        String info = "";
+        LeftRightIterator<Integer> iterator = digits.iterator(DoublyLinkedList.Side.Left);
+        while (iterator.hasRight())
+        {
+            info += iterator.right();
+        }
+        return info;
+    }
+	
+	/**
+	 * Multiplies this BigNumber by o
+	 * @param o BigNumber to multiply by
+	 * @return product
+	 * @author Kyle Butera
+	 */
 	public BigNumber multiply(BigNumber o)
 	{		
 		//Assign new variables for negating and swapping purposes
@@ -327,7 +338,9 @@ public class BigNumber
 		return resultNum;
 	}
 	
-	//Helper class for division
+	/**
+	 * Helper class for BigNumber division
+	 */
 	public class BigNumberDivision
 	{
 		private BigNumber quotient;
@@ -336,38 +349,70 @@ public class BigNumber
 		public BigNumber getMod() { return mod; }
 	}
 	
-	//TODO Kyle
+	/**
+	 * Divides this BigNumber by o
+	 * @param o BigNumber to divide by
+	 * @return result, including the quotient and mod
+	 * @author Kyle Butera
+	 */
 	public BigNumberDivision divide (BigNumber o)
 	{
-		BigNumber tally = new BigNumber();
-		BigNumber current = this;
+		BigNumber tally = new BigNumber();	//Tally value for how many times we subtracted o
+		BigNumber current = this;	//Current number that decrements by o each time
+		//Subtract o until we our number less than it, tally times we've done that 
 		while (current.compareTo(o) >= 0)
 		{
 			current = current.subtract(o);
 			tally = tally.add(new BigNumber("1"));
 		}
 		
+		//Place results into return format
 		BigNumberDivision result = new BigNumberDivision();
 		result.quotient = tally;
 		result.mod = current;
 		return result;
 	}
 	
-	//TODO Kyle
+	/**
+	 * Factors an array
+	 * <br> Kyle was assigned to do this but didn't get it in on time 
+	 * @return array of factors
+	 * @author Brian Intile
+	 */
 	public BigNumber[] factor()
 	{
 		ArrayList<BigNumber> results = new ArrayList<BigNumber>();
-		int sqrtDigits = (int)Math.ceil((float)digits.getSize() / 2f);
+		int sqrtDigits = (int)Math.ceil((float)digits.getSize() / 2f);	//Estimate square root by digit count
 		BigNumber zero = new BigNumber();
 		BigNumber one = new BigNumber("1");
 		for(BigNumber i = new BigNumber("2"); i.digits.getSize() <= sqrtDigits + 1; i = i.add(one))
 		{
-			if (this.divide(i).getMod().equals(zero) && i.compareTo(this) < 0)
+			BigNumberDivision div = this.divide(i);
+			if (div.getMod().equals(zero) && i.compareTo(this) < 0)
 			{
-					System.out.println(i + " is a factor of " + this);
+				if (listContains(results, i))	//If we reached a number already, we've surpassed the square root
+					break;
+				
+				results.add(i);
+				if (!i.equals(div.getQuotient()))	//Add other factor, unless it's square root
+					results.add(div.getQuotient());
+				else
+					break;	//If we're at an even square root, we can break
 			}
 		}
-		return null;
+		BigNumber[] returnList = new BigNumber[results.size()];
+		return results.toArray(returnList);
+	}
+	
+	//Helper function for determining if a BigNumber value is in an arraylist
+	boolean listContains(ArrayList<BigNumber> list, BigNumber element)
+	{
+		for(BigNumber number : list)
+		{
+			if (number.equals(element))
+				return true;
+		}
+		return false;
 	}
 	
 }
